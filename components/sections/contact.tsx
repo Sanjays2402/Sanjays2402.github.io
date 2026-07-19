@@ -1,32 +1,34 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Linkedin, Github, ExternalLink } from 'lucide-react'
+import { ArrowUp, ExternalLink, Github, Linkedin, Mail, MapPin } from 'lucide-react'
+import Link from 'next/link'
+import { profile } from '@/lib/portfolio-data'
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'sanjays2402@gmail.com',
-    href: 'mailto:sanjays2402@gmail.com'
+    value: profile.email,
+    href: `mailto:${profile.email}`,
   },
   {
     icon: MapPin,
     label: 'Location',
-    value: 'New Brunswick, NJ',
+    value: profile.location,
     href: null
   },
   {
     icon: Linkedin,
     label: 'LinkedIn',
     value: 'linkedin.com/in/sanjay24',
-    href: 'https://linkedin.com/in/sanjay24'
+    href: profile.linkedinUrl,
   },
   {
     icon: Github,
     label: 'GitHub',
     value: 'github.com/Sanjays2402',
-    href: 'https://github.com/Sanjays2402/'
+    href: profile.githubUrl,
   }
 ]
 
@@ -53,17 +55,16 @@ const itemVariants = {
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-20 glass-section">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="contact" className="glass-section py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center sm:mb-12"
         >
-          <span className="text-sm font-mono text-primary mb-4 block">07</span>
+          <span className="text-sm font-mono text-primary mb-4 block">06</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             GET IN TOUCH
           </h2>
@@ -81,19 +82,17 @@ export function ContactSection() {
               variants={itemVariants}
               className="text-2xl font-bold text-foreground mb-6"
             >
-              Let&apos;s Build Something Amazing Together
+              Build reliable software with me.
             </motion.h3>
             <motion.p
               variants={itemVariants}
               className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
             >
-              I&apos;m always interested in new opportunities and collaborations. 
-              Whether you have a project in mind or just want to connect, 
-              feel free to reach out!
+              I&apos;m open to backend, platform, and product engineering
+              conversations. Send an email or review the work behind this portfolio.
             </motion.p>
           </motion.div>
 
-          {/* Contact Grid */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -101,7 +100,7 @@ export function ContactSection() {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            {contactInfo.map((contact, index) => (
+            {contactInfo.map((contact) => (
               <motion.div
                 key={contact.label}
                 variants={itemVariants}
@@ -126,7 +125,6 @@ export function ContactSection() {
             ))}
           </motion.div>
 
-          {/* Call to Action */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -134,18 +132,25 @@ export function ContactSection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-center mt-12"
           >
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="mailto:sanjays2402@gmail.com"
-              className="btn-primary inline-flex items-center gap-2"
-            >
-              <Mail className="h-5 w-5" />
-              Send Me an Email
-            </motion.a>
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
+              <motion.a
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                href={`mailto:${profile.email}`}
+                className="btn-primary inline-flex items-center justify-center gap-2"
+              >
+                <Mail className="h-5 w-5" aria-hidden="true" />
+                Send an email
+              </motion.a>
+              <Link
+                href="/resume/"
+                className="btn-secondary inline-flex items-center justify-center"
+              >
+                View resume
+              </Link>
+            </div>
           </motion.div>
 
-          {/* Footer */}
           <motion.footer
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -153,7 +158,14 @@ export function ContactSection() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-20 pt-8 border-t border-border text-center"
           >
-            <p className="text-muted-foreground">
+            <a
+              href="#home"
+              className="mb-5 inline-flex items-center gap-2 text-sm font-medium text-foreground sm:hidden"
+            >
+              <ArrowUp className="h-4 w-4" aria-hidden="true" />
+              Back to top
+            </a>
+            <p className="text-center text-muted-foreground">
               © 2026 Sanjay Santhanam.
             </p>
           </motion.footer>
@@ -163,20 +175,20 @@ export function ContactSection() {
   )
 }
 
-const ContactCard = ({ contact }: { contact: typeof contactInfo[0] }) => {
+const ContactCard = ({ contact }: { contact: typeof contactInfo[number] }) => {
   const Icon = contact.icon
   
   return (
     <div className="glass-card rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-card/50 hover:border-white/20 transition-all duration-300 group">
       <div className="flex items-center gap-4">
         <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-          <Icon className="h-6 w-6 text-primary" />
+          <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
         </div>
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <h4 className="font-semibold text-foreground mb-1">
             {contact.label}
           </h4>
-          <p className="text-muted-foreground group-hover:text-primary transition-colors">
+          <p className="break-words text-muted-foreground transition-colors group-hover:text-primary">
             {contact.value}
           </p>
         </div>

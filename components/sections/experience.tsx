@@ -2,33 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Building2, Calendar } from 'lucide-react'
-
-const experiences = [
-  {
-    title: 'Software Developer',
-    company: 'Johnson & Johnson',
-    period: 'Jun 2024 - Present',
-    location: 'New Brunswick, New Jersey, United States · Hybrid',
-    description: 'Architected a FHIR-compliant microservice using Java 17 and Spring Boot to streamline patient appointment scheduling across 15 hospitals, reducing average booking time by 35% and supporting 24/7 availability.',
-    technologies: ['Java 17', 'Spring Boot', 'FHIR', 'Microservices', 'React.js', 'API Gateway']
-  },
-  {
-    title: 'Software Developer',
-    company: 'Citi',
-    period: 'May 2023 - Apr 2024',
-    location: 'New York, United States · Remote',
-    description: 'Facilitated the construction of Spring Boot microservices for real-time credit card fraud checks using Kafka Streams and Oracle, supporting over 1M transactions per hour and meeting strict latency requirements with 15% accuracy improvement.',
-    technologies: ['Spring Boot', 'Kafka Streams', 'Oracle', 'Docker', 'RESTful APIs', 'Java 17']
-  },
-  {
-    title: 'Software Development Engineer',
-    company: 'Zentek Infosoft',
-    period: 'Jun 2020 - Jul 2022',
-    location: 'Jaipur, Rajasthan, India · Remote',
-    description: 'Delivered a role-based enterprise HR portal using Java Spring Boot, Angular, and MySQL, streamlining onboarding workflows and reducing manual HR processing time by 40%.',
-    technologies: ['Java', 'Spring Boot', 'Angular', 'MySQL', 'AWS', 'REST APIs']
-  }
-]
+import { experiences } from '@/lib/portfolio-data'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,15 +27,14 @@ const itemVariants = {
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="experience" className="py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center sm:mb-12"
         >
           <span className="text-sm font-mono text-primary mb-4 block">02</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -69,75 +42,50 @@ export function ExperienceSection() {
           </h2>
         </motion.div>
 
-        {/* Timeline */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="relative"
+          className="grid gap-6 md:grid-cols-2 xl:grid-cols-3"
         >
-          {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border transform md:-translate-x-px"></div>
-
-          {experiences.map((experience, index) => (
-            <motion.div
-              key={index}
+          {experiences.map((experience) => (
+            <motion.article
+              key={`${experience.company}-${experience.period}`}
               variants={itemVariants}
-              className={`relative flex items-center mb-12 ${
-                index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-              }`}
+              className="glass-card flex h-full flex-col rounded-lg p-6 shadow-lg"
             >
-              {/* Timeline Dot */}
-              <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full transform -translate-x-1/2 z-10 shadow-lg"></div>
-
-              {/* Content Card */}
-              <div className={`w-full md:w-1/2 ${
-                index % 2 === 0 ? 'md:pr-12 pl-16' : 'md:pl-12 pl-16'
-              }`}>
-                <motion.div
-                  whileHover={{ y: -5 }}
-                  className="glass-card rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-card/50 hover:border-white/20 transition-all duration-300"
-                >
-                  {/* Company & Period */}
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>{experience.period}</span>
-                  </div>
-
-                  {/* Title & Company */}
-                  <h3 className="text-xl font-bold text-foreground mb-1">
-                    {experience.title}
-                  </h3>
-                  <div className="flex items-center gap-2 text-primary font-semibold mb-2">
-                    <Building2 className="h-4 w-4" />
-                    <span>{experience.company}</span>
-                  </div>
-
-                  {/* Location */}
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {experience.location}
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {experience.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2">
-                    {experience.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 text-xs font-mono glass-badge text-muted-foreground rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
+              <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                <Calendar className="h-4 w-4" aria-hidden="true" />
+                <span>{experience.period}</span>
               </div>
-            </motion.div>
+
+              <h3 className="mb-1 text-xl font-bold text-foreground">
+                {experience.title}
+              </h3>
+              <div className="mb-2 flex items-center gap-2 font-semibold text-primary">
+                <Building2 className="h-4 w-4" aria-hidden="true" />
+                <span>{experience.company}</span>
+              </div>
+
+              <p className="mb-4 text-sm text-muted-foreground">
+                {experience.location}
+              </p>
+              <p className="mb-5 leading-relaxed text-muted-foreground">
+                {experience.description}
+              </p>
+
+              <div className="mt-auto flex flex-wrap gap-2">
+                {experience.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="glass-badge rounded px-2 py-1 font-mono text-xs text-muted-foreground"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.article>
           ))}
         </motion.div>
       </div>

@@ -1,8 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
+import { Github, Linkedin, Mail } from 'lucide-react'
 import Link from 'next/link'
+import { profile } from '@/lib/portfolio-data'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -24,80 +25,80 @@ const itemVariants = {
 }
 
 const codeSnippet = `public class SanjaySanthanam {
-    private String role = "Software Developer";
-    private String[] skills = {
-        "Java", "Spring Boot", "React.js",
-        "Node.js", "PostgreSQL", "AWS"
+    private String role = "Backend & Systems Engineer";
+    private String[] focus = {
+        "Healthcare", "Fintech", "Applied AI"
     };
-    private String education = "MS Computer Science";
-    private String university = "Syracuse University";
+    private String stack = "Java, Spring Boot, Kafka";
     
-    public void buildAmazingThings() {
-        // Let&apos;s create something extraordinary!
+    public void buildReliableSystems() {
+        // Let's turn complex workflows into simple products.
     }
 }`
 
 export function HeroSection() {
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="home"
+      className="flex min-h-[100svh] items-center justify-center overflow-hidden pb-12 pt-20 sm:pb-16"
+    >
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2"
         >
-          {/* Text Content */}
           <div className="text-center lg:text-left">
+            <motion.p
+              variants={itemVariants}
+              className="mb-4 text-left font-mono text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+            >
+              Healthcare / Fintech / Distributed systems
+            </motion.p>
+
             <motion.div variants={itemVariants} className="mb-6">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-                <span className="block text-foreground">SOFTWARE</span>
-                <span className="block text-gradient">DEVELOPER</span>
+              <h1 className="text-left text-4xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">
+                <span className="block text-foreground">BACKEND &</span>
+                <span className="block text-gradient">SYSTEMS ENGINEER</span>
               </h1>
             </motion.div>
 
             <motion.p
               variants={itemVariants}
-              className="text-xl text-muted-foreground mb-8 max-w-2xl"
+              className="mx-auto mb-8 max-w-2xl text-left text-lg leading-relaxed text-muted-foreground sm:text-xl lg:mx-0"
             >
-              With over 4 years of experience building scalable applications with Java, Spring Boot, 
-              and modern web technologies. Holding a Master&apos;s degree in Computer Science from Syracuse University.
+              I build reliable Java and Spring platforms for high-stakes workflows,
+              including patient scheduling across 15 hospitals and fraud checks at
+              more than 1M transactions per hour.
             </motion.p>
 
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8"
+              className="mb-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start"
             >
               <Link
                 href="#projects"
-                className="btn-primary inline-flex items-center"
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
-                }}
+                className="btn-primary inline-flex items-center justify-center"
               >
-                View Projects
+                View featured work
               </Link>
               <Link
-                href="#contact"
-                className="btn-ghost inline-flex items-center"
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
-                }}
+                href="/resume/"
+                className="btn-secondary inline-flex items-center justify-center"
               >
-                Get In Touch
+                View resume
               </Link>
             </motion.div>
 
             <motion.div
               variants={itemVariants}
-              className="flex gap-4 justify-center lg:justify-start"
+              className="flex justify-center gap-3 lg:justify-start"
             >
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                href="https://github.com/Sanjays2402/"
+                href={profile.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full glass-badge hover:bg-muted/40 transition-all duration-300"
@@ -108,7 +109,7 @@ export function HeroSection() {
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                href="https://linkedin.com/in/sanjay24"
+                href={profile.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full glass-badge hover:bg-muted/40 transition-all duration-300"
@@ -119,7 +120,7 @@ export function HeroSection() {
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                href="mailto:sanjays2402@gmail.com"
+                href={`mailto:${profile.email}`}
                 className="p-3 rounded-full glass-badge hover:bg-muted/40 transition-all duration-300"
                 aria-label="Email Contact"
               >
@@ -128,13 +129,11 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Code Window */}
           <motion.div
             variants={itemVariants}
             className="hidden lg:block"
           >
             <div className="glass-card rounded-lg overflow-hidden shadow-2xl">
-              {/* Window Header */}
               <div className="bg-muted/30 backdrop-blur-sm px-4 py-3 flex items-center gap-2">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -146,7 +145,6 @@ export function HeroSection() {
                 </span>
               </div>
 
-              {/* Code Content */}
               <div className="p-6 bg-card/30 backdrop-blur-md font-mono text-sm overflow-x-auto">
                 <pre className="text-card-foreground">
                   <code>{codeSnippet}</code>
@@ -155,7 +153,6 @@ export function HeroSection() {
             </div>
           </motion.div>
         </motion.div>
-
       </div>
     </section>
   )

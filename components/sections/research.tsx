@@ -1,50 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { BookOpen, Users, Calendar, Award } from 'lucide-react'
-
-const publications = [
-  {
-    title: 'Animal detection for road safety using deep learning',
-    authors: 'S Santhanam, SS Panigrahi, SK Kashyap, BK Duriseti',
-    conference: '2021 International Conference on Computational Intelligence and Computing',
-    year: '2021',
-    citations: '24',
-    type: 'Conference Paper'
-  },
-  {
-    title: 'Model proposal for a yolo objection detection algorithm based social distancing detection system',
-    authors: 'SS Balamurugan, S Santhanam, A Billa, R Aggarwal, NV Alluri',
-    conference: '2021 International Conference on Computational Intelligence and Computing',
-    year: '2021',
-    citations: '4',
-    type: 'Conference Paper'
-  },
-  {
-    title: 'Drowsiness detection with OpenCV',
-    authors: 'S Sanjay, N Banupriya, M Sathish',
-    conference: '2021 Second International Conference on Electronics and Sustainable Communication',
-    year: '2021',
-    citations: '3',
-    type: 'Conference Paper'
-  },
-  {
-    title: 'Recognition of Pneumonia from the X-Ray image pattern using Convolutional Neural Networks',
-    authors: 'Sathya Soundararajan, Thyagaraj T, Yanamadala Vasu Deva Sai',
-    conference: 'Springer - International Conference on Innovations, Research and Emerging Technologies (IRCET-21)',
-    year: '2021',
-    citations: '2',
-    type: 'Conference Paper'
-  },
-  {
-    title: 'Computer Vision based Road Lane Detection',
-    authors: 'S S. Sidhaarthan, S Sanjay',
-    journal: 'Artificial & Computational Intelligence',
-    year: '2021',
-    citations: '0',
-    type: 'Journal Article'
-  }
-]
+import { Award, BookOpen, Calendar, ExternalLink, Users } from 'lucide-react'
+import { profile, publications, totalCitations } from '@/lib/portfolio-data'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -68,141 +26,106 @@ const itemVariants = {
 }
 
 export function ResearchSection() {
-  const totalCitations = publications.reduce((sum, pub) => sum + parseInt(pub.citations), 0)
-
   return (
-    <section id="research" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="research" className="py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center sm:mb-12"
         >
-          <span className="text-sm font-mono text-primary mb-4 block">06</span>
+          <span className="text-sm font-mono text-primary mb-4 block">05</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             RESEARCH
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Published research in computer vision, deep learning, and intelligent systems
+          <p className="mx-auto max-w-2xl text-center text-lg text-muted-foreground">
+            Peer-reviewed work in computer vision, deep learning, and intelligent systems.
           </p>
         </motion.div>
 
-        {/* Research Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
+          className="mb-10 grid grid-cols-3 gap-2 sm:gap-5"
         >
-          <div className="text-center p-6 glass-stat rounded-lg">
-            <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
-            <div className="text-2xl font-bold text-foreground mb-1">{publications.length}</div>
-            <div className="text-sm text-muted-foreground">Publications</div>
+          <div className="glass-stat rounded-lg p-3 text-center sm:p-5">
+            <BookOpen className="mx-auto mb-2 h-6 w-6 text-primary sm:h-8 sm:w-8" aria-hidden="true" />
+            <div className="mb-1 text-xl font-bold text-foreground sm:text-2xl">{publications.length}</div>
+            <div className="text-xs text-muted-foreground sm:text-sm">Publications</div>
           </div>
-          <div className="text-center p-6 glass-stat rounded-lg">
-            <Award className="h-8 w-8 text-primary mx-auto mb-2" />
-            <div className="text-2xl font-bold text-foreground mb-1">{totalCitations}+</div>
-            <div className="text-sm text-muted-foreground">Citations</div>
+          <div className="glass-stat rounded-lg p-3 text-center sm:p-5">
+            <Award className="mx-auto mb-2 h-6 w-6 text-primary sm:h-8 sm:w-8" aria-hidden="true" />
+            <div className="mb-1 text-xl font-bold text-foreground sm:text-2xl">{totalCitations}+</div>
+            <div className="text-xs text-muted-foreground sm:text-sm">Citations</div>
           </div>
-          <div className="text-center p-6 glass-stat rounded-lg">
-            <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
-            <div className="text-2xl font-bold text-foreground mb-1">2021</div>
-            <div className="text-sm text-muted-foreground">Research Year</div>
+          <div className="glass-stat rounded-lg p-3 text-center sm:p-5">
+            <Calendar className="mx-auto mb-2 h-6 w-6 text-primary sm:h-8 sm:w-8" aria-hidden="true" />
+            <div className="mb-1 text-xl font-bold text-foreground sm:text-2xl">2021</div>
+            <div className="text-xs text-muted-foreground sm:text-sm">Published</div>
           </div>
         </motion.div>
 
-        {/* Publications List */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="space-y-6"
+          className="grid gap-5 md:grid-cols-2"
         >
-          {publications.map((publication, index) => (
-            <motion.div
-              key={index}
+          {publications.map((publication) => (
+            <motion.article
+              key={publication.title}
               variants={itemVariants}
-              whileHover={{ y: -2, shadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              className="glass-card rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-card/50 hover:border-white/20 transition-all duration-300"
+              className="glass-card flex h-full flex-col rounded-lg p-5 shadow-lg sm:p-6"
             >
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                <div className="flex-1">
-                  {/* Publication Title */}
-                  <h3 className="text-xl font-bold text-foreground mb-3 leading-tight">
-                    {publication.title}
-                  </h3>
-                  
-                  {/* Authors */}
-                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
-                    <Users className="h-4 w-4 flex-shrink-0" />
-                    <span className="text-sm">{publication.authors}</span>
-                  </div>
-                  
-                  {/* Conference/Journal */}
-                  <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                    <BookOpen className="h-4 w-4 flex-shrink-0" />
-                    <span className="text-sm">{publication.conference || publication.journal}</span>
-                  </div>
-                  
-                  {/* Type Badge */}
-                  <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
-                    {publication.type}
-                  </span>
-                </div>
-                
-                {/* Right Side - Year & Citations */}
-                <div className="flex lg:flex-col gap-4 lg:gap-2 lg:text-right">
-                  <div className="text-center lg:text-right">
-                    <div className="text-2xl font-bold text-foreground">{publication.year}</div>
-                    <div className="text-xs text-muted-foreground">Year</div>
-                  </div>
-                  <div className="text-center lg:text-right">
-                    <div className="text-2xl font-bold text-primary">{publication.citations}</div>
-                    <div className="text-xs text-muted-foreground">Citations</div>
-                  </div>
-                </div>
+              <div className="mb-4 flex items-start justify-between gap-4">
+                <span className="font-mono text-xs text-muted-foreground">
+                  {publication.year}
+                </span>
+                <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                  {publication.citations} citations
+                </span>
               </div>
-            </motion.div>
+
+              <a
+                href={publication.scholarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-start gap-2 text-lg font-bold leading-tight text-foreground transition-colors hover:text-primary"
+              >
+                {publication.title}
+                <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              </a>
+              <div className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
+                <Users className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                <span>{publication.authors}</span>
+              </div>
+              <div className="mt-2 flex items-start gap-2 text-sm text-muted-foreground">
+                <BookOpen className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                <span>{publication.venue}</span>
+              </div>
+            </motion.article>
           ))}
         </motion.div>
 
-        {/* Research Areas */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 text-center"
-        >
-          <h3 className="text-xl font-bold text-foreground mb-6">
-            Research Areas
-          </h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              'Computer Vision', 'Deep Learning', 'Object Detection', 
-              'Medical Imaging', 'Convolutional Neural Networks', 'Road Safety', 
-              'OpenCV', 'YOLO Algorithm', 'Social Distancing', 
-              'Drowsiness Detection', 'Lane Detection', 'Healthcare AI'
-            ].map((area, index) => (
-              <motion.span
-                key={area}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-                className="px-4 py-2 text-sm font-medium glass-badge text-muted-foreground rounded-full hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-300 cursor-default"
-              >
-                {area}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
+        <div className="mt-8 text-center">
+          <a
+            href={profile.scholarUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost inline-flex items-center gap-2"
+          >
+            View Google Scholar profile
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+          </a>
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Publication and citation totals are sourced from Google Scholar.
+          </p>
+        </div>
       </div>
     </section>
   )

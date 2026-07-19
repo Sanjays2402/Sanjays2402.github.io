@@ -1,58 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Code, Database, Cloud, Wrench } from 'lucide-react'
+import { Cloud, Code2, Database, PanelsTopLeft } from 'lucide-react'
+import { additionalSkills, skillCategories } from '@/lib/portfolio-data'
 
-const skillCategories = [
-  {
-    icon: Code,
-    title: 'Programming Languages',
-    skills: [
-      'Java',
-      'C/C++',
-      'Python',
-      'JavaScript',
-      'TypeScript',
-      'Ruby',
-    ]
-  },
-  {
-    icon: Wrench,
-    title: 'Frontend Development',
-    skills: [
-      'React.js',
-      'Angular',
-      'HTML5',
-      'CSS3',
-      'Tailwind CSS',
-      'JavaScript',
-    ]
-  },
-  {
-    icon: Database,
-    title: 'Backend & Databases',
-    skills: [
-      'Spring Boot',
-      'Node.js',
-      'Django',
-      'PostgreSQL',
-      'MongoDB',
-      'MySQL',
-    ]
-  },
-  {
-    icon: Cloud,
-    title: 'DevOps & Cloud',
-    skills: [
-      'Docker',
-      'Kubernetes',
-      'AWS',
-      'Jenkins',
-      'Terraform',
-      'Azure',
-    ]
-  }
-]
+const categoryIcons = [Code2, Database, PanelsTopLeft, Cloud] as const
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -75,55 +27,16 @@ const itemVariants = {
   }
 }
 
-const SkillCard = ({ skill, index }: { skill: string, index: number }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ 
-        duration: 0.5, 
-        delay: index * 0.1,
-        type: "spring",
-        stiffness: 100
-      }}
-      whileHover={{ 
-        scale: 1.05,
-        rotate: [0, -1, 1, 0],
-        transition: { duration: 0.3 }
-      }}
-      className="relative group cursor-pointer"
-    >
-      <div className="bg-gradient-to-br from-card/30 to-muted/20 backdrop-blur-md border border-white/10 rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-        {/* Skill name */}
-        <div className="relative z-10 text-center">
-          <span className="font-medium text-foreground group-hover:text-primary transition-colors duration-300">
-            {skill}
-          </span>
-        </div>
-        
-        {/* Subtle pulse effect */}
-        <motion.div
-          className="absolute inset-0 border border-primary/20 rounded-lg opacity-0 group-hover:opacity-100"
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-      </div>
-    </motion.div>
-  )
-}
-
 export function SkillsSection() {
   return (
-    <section id="skills" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="skills" className="py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center sm:mb-12"
         >
           <span className="text-sm font-dyslexic text-primary mb-4 block">04</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -131,74 +44,64 @@ export function SkillsSection() {
           </h2>
         </motion.div>
 
-        {/* Skills Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          className="grid grid-cols-1 gap-5 md:grid-cols-2"
         >
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.title}
-              variants={itemVariants}
-              className="glass-card rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-card/50 hover:border-white/20 transition-all duration-300"
-            >
-              {/* Category Header */}
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <category.icon className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground">
-                  {category.title}
-                </h3>
-              </div>
+          {skillCategories.map((category, categoryIndex) => {
+            const Icon = categoryIcons[categoryIndex]
 
-              {/* Skills Grid */}
-              <div className="grid grid-cols-2 gap-3">
-                {category.skills.map((skill, skillIndex) => (
-                  <SkillCard
-                    key={skill}
-                    skill={skill}
-                    index={skillIndex}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          ))}
+            return (
+              <motion.div
+                key={category.title}
+                variants={itemVariants}
+                className="glass-card rounded-lg p-6 shadow-lg"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground">
+                    {category.title}
+                  </h3>
+                </div>
+
+                <ul className="grid grid-cols-2 gap-2">
+                  {category.skills.map((skill) => (
+                    <li
+                      key={skill}
+                      className="glass-badge rounded-md px-3 py-2 text-center text-sm font-medium text-foreground"
+                    >
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )
+          })}
         </motion.div>
 
-        {/* Additional Skills */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 text-center"
+          className="mt-8 text-center sm:mt-10"
         >
-          <h3 className="text-xl font-bold text-foreground mb-6">
-            Other Technologies & Tools
+          <h3 className="mb-4 text-lg font-bold text-foreground">
+            Also experienced with
           </h3>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3 max-w-6xl mx-auto">
-            {[
-              'Flask', 'FastAPI', 'Microsoft SQL Server', 'NoSQL', 'GCP', 'Ansible',
-              'Git', 'GitHub', 'GitLab', 'JIRA', 'Trello', 'Confluence',
-              'REST APIs', 'GraphQL', 'Microservices', 'FHIR', 'OAuth',
-              'JUnit', 'Selenium', 'PyTest', 'Jest', 'Mocha',
-              'Agile/Scrum', 'Waterfall', 'SDLC', 'Firebase', 'Postman'
-            ].map((tool, index) => (
-              <motion.span
+          <div className="mx-auto flex max-w-4xl flex-wrap justify-center gap-2">
+            {additionalSkills.map((tool) => (
+              <span
                 key={tool}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-                className="px-2 py-1 md:px-3 md:py-2 text-xs md:text-sm font-dyslexic glass-badge text-muted-foreground rounded-full hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-300 cursor-default"
+                className="glass-badge rounded-full px-3 py-1.5 text-xs text-muted-foreground sm:text-sm"
               >
                 {tool}
-              </motion.span>
+              </span>
             ))}
           </div>
         </motion.div>

@@ -58,14 +58,21 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
-  
+
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    overflow-x: clip;
   }
-  
+
   p {
-    text-align: justify;
+    text-align: left;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
   
   /* Custom scrollbar */
@@ -132,6 +139,15 @@
   }
 }
 
+.decorative-background {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
 /* Animated gradient background */
 .gradient-bg {
   background: 
@@ -149,34 +165,32 @@
 
 /* Floating orbs for glass effect depth */
 .glass-orb {
-  position: fixed;
+  position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  pointer-events: none;
-  z-index: -1;
 }
 
 .glass-orb-1 {
-  width: 400px;
-  height: 400px;
+  width: min(400px, 80vw);
+  height: min(400px, 80vw);
   top: 10%;
-  left: 10%;
+  left: 5%;
   background: hsl(var(--primary) / 0.1);
   animation: float-orb 20s ease-in-out infinite;
 }
 
 .glass-orb-2 {
-  width: 350px;
-  height: 350px;
+  width: min(350px, 75vw);
+  height: min(350px, 75vw);
   top: 60%;
-  right: 10%;
+  right: 5%;
   background: hsl(220 80% 60% / 0.08);
   animation: float-orb 25s ease-in-out infinite reverse;
 }
 
 .glass-orb-3 {
-  width: 300px;
-  height: 300px;
+  width: min(300px, 70vw);
+  height: min(300px, 70vw);
   bottom: 10%;
   left: 30%;
   background: hsl(280 70% 60% / 0.06);
@@ -188,4 +202,76 @@
   25% { transform: translate(30px, -30px) scale(1.05); }
   50% { transform: translate(-20px, 20px) scale(0.95); }
   75% { transform: translate(10px, -10px) scale(1.02); }
+}
+
+@media (max-width: 640px) {
+  .glass-orb {
+    filter: blur(60px);
+  }
+
+  .glass-orb-1 {
+    left: -20%;
+  }
+
+  .glass-orb-2 {
+    right: -20%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .glass-orb {
+    animation: none;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0.5in;
+  }
+
+  nav,
+  .back-to-top,
+  .resume-actions,
+  .decorative-background {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .resume-page {
+    padding: 0 !important;
+  }
+
+  .resume-page,
+  .resume-page * {
+    color: black !important;
+    border-color: #d1d5db !important;
+    box-shadow: none !important;
+  }
+
+  .resume-page .glass-card {
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  .resume-section {
+    break-inside: avoid;
+  }
 }

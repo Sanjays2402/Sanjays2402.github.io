@@ -1,32 +1,19 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Terminal } from 'lucide-react'
-
-const stats = [
-  { number: '4+', label: 'Years Experience' },
-  { number: '10+', label: 'Projects Completed' },
-  { number: '40+', label: 'Research Citations' }
-]
-
-const terminalCommands = [
-  { command: '$ whoami', output: 'sanjay.santhanam' },
-  { command: '$ cat experience.txt', output: '4+ years in software development' },
-  { command: '$ ls skills/', output: 'Java  Spring-Boot  React.js  Node.js  PostgreSQL' },
-  { command: '$ cat education.txt', output: 'MS Computer Science - Syracuse University' }
-]
+import { BriefcaseBusiness, GraduationCap, MapPin } from 'lucide-react'
+import { education, impactStats } from '@/lib/portfolio-data'
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-20 glass-section">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="about" className="glass-section py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center sm:mb-12"
         >
           <span className="text-sm font-mono text-primary mb-4 block">01</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -34,47 +21,46 @@ export function AboutSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Text Content */}
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <h3 className="text-2xl font-bold text-foreground mb-6">
-              Passionate Software Developer
+              I turn complex workflows into dependable products.
             </h3>
             
             <div className="space-y-4 text-muted-foreground">
-              <p>
-                With over 4 years of experience in building scalable microservices-based 
-                applications using Java, Spring Boot, and React.js, I specialize in creating 
-                robust backend systems and engaging user interfaces.
+              <p className="leading-relaxed">
+                My work sits where reliability, domain constraints, and product
+                usability meet. I design APIs and distributed services that stay
+                understandable under load, then work across the stack to make them
+                useful to the people operating them.
               </p>
-              
-              <p>
-                Holding a Master&apos;s degree in Computer Science from Syracuse University, 
-                I bring a strong foundation in software engineering principles and a 
-                passion for continuous learning.
+
+              <p className="leading-relaxed">
+                I bring production experience in healthcare and financial systems,
+                an M.S. in Computer Science, and published computer-vision research
+                to each problem.
               </p>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-8">
-              {stats.map((stat, index) => (
+            <div className="mt-8 grid grid-cols-3 gap-2 sm:gap-4">
+              {impactStats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center p-4 rounded-lg glass-stat"
+                  className="glass-stat rounded-lg p-3 text-center sm:p-4"
                 >
-                  <div className="text-2xl font-bold text-primary mb-1">
+                  <div className="mb-1 text-xl font-bold text-primary sm:text-2xl">
                     {stat.number}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-xs leading-tight text-muted-foreground sm:text-sm">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -82,57 +68,42 @@ export function AboutSection() {
             </div>
           </motion.div>
 
-          {/* Terminal Window */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="glass-card rounded-lg overflow-hidden shadow-xl">
-              {/* Terminal Header */}
-              <div className="bg-muted/30 backdrop-blur-sm px-4 py-3 flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground font-mono">
-                  ~/sanjay
-                </span>
+            <div className="glass-card rounded-lg p-6 shadow-xl sm:p-8">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <BriefcaseBusiness className="h-5 w-5 text-primary" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Current focus</p>
+                  <h3 className="font-semibold text-foreground">
+                    Java platforms and distributed systems
+                  </h3>
+                </div>
               </div>
 
-              {/* Terminal Content */}
-              <div className="bg-card/30 backdrop-blur-md p-6 font-mono text-sm space-y-3">
-                {terminalCommands.map((cmd, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: index * 0.2 }}
-                  >
-                    <div className="text-primary">
-                      <span className="text-muted-foreground">➜</span> {cmd.command}
+              <div className="border-t border-border pt-6">
+                <div className="mb-4 flex items-center gap-2">
+                  <GraduationCap className="h-5 w-5 text-primary" aria-hidden="true" />
+                  <h3 className="text-lg font-bold text-foreground">Education</h3>
+                </div>
+                <div className="space-y-5">
+                  {education.map((item) => (
+                    <div key={item.school}>
+                      <p className="font-semibold text-foreground">{item.degree}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">{item.school}</p>
+                      <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+                        {item.location}
+                      </p>
                     </div>
-                    <div className="text-muted-foreground ml-2">
-                      {cmd.output}
-                    </div>
-                  </motion.div>
-                ))}
-                
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.8 }}
-                  className="flex items-center"
-                >
-                  <span className="text-muted-foreground">➜</span>
-                  <motion.span
-                    animate={{ opacity: [1, 0, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    className="ml-1 text-primary"
-                  >
-                    _
-                  </motion.span>
-                </motion.div>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

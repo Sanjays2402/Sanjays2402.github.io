@@ -1,14 +1,15 @@
 # Sanjay Santhanam - Portfolio
 
-Modern portfolio website built with Next.js 14, Tailwind CSS, and Framer Motion.
+Modern portfolio website built with Next.js 15, Tailwind CSS, and Framer Motion.
 
 ## 🚀 Features
 
 - **Modern Tech Stack**: Next.js 14, TypeScript, Tailwind CSS, Framer Motion
-- **Responsive Design**: Mobile-first approach with smooth animations
+- **Responsive Design**: Mobile-first layouts with tablet-safe navigation and overflow protection
 - **Dark/Light Theme**: Theme switching with next-themes
-- **Accessibility**: Optimized for high legibility with Inter and JetBrains Mono fonts
+- **Accessibility**: High-legibility typography, keyboard focus states, and reduced-motion support
 - **Performance**: Optimized for fast loading and smooth interactions
+- **Conversion**: Verified project links and a printable, accessible resume route
 
 ## 🛠️ Local Development
 
@@ -63,7 +64,7 @@ The portfolio is fully optimized for mobile devices including:
 - Touch-friendly navigation
 - Responsive layouts
 - iPhone/Safari compatibility
-- Smooth touch interactions
+- Motion that follows the user's reduced-motion preference
 
 ## 🎨 Customization
 
@@ -74,13 +75,12 @@ The portfolio is fully optimized for mobile devices including:
 
 ## 📝 Content Sections
 
-- Hero with introduction
-- About with terminal animation
-- Work experience timeline
-- Projects showcase
-- Skills with interactive cards
-- Education background
-- Research publications
+- Positioning-focused hero with portfolio and resume calls to action
+- About, impact metrics, and education summary
+- Work experience
+- Verified projects with source and live-demo links
+- Skills grouped by engineering area
+- Research publications linked to Google Scholar
 - Contact information
 
 ## 🔧 Tech Stack

@@ -2,39 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
-
-const projects = [
-  {
-    title: 'FHIR-Compliant Patient Scheduling Microservice',
-    description: 'Architected a FHIR-compliant microservice using Java 17 and Spring Boot to streamline patient appointment scheduling across 15 hospitals, reducing average booking time by 35% and supporting 24/7 availability.',
-    technologies: ['Java 17', 'Spring Boot', 'FHIR', 'Microservices']
-  },
-  {
-    title: 'Real-Time Credit Card Fraud Detection System',
-    description: 'Facilitated the construction of Spring Boot microservices for real-time credit card fraud checks using Kafka Streams and Oracle, supporting over 1M transactions per hour with 15% accuracy improvement.',
-    technologies: ['Spring Boot', 'Kafka Streams', 'Oracle', 'Docker']
-  },
-  {
-    title: 'Enterprise HR Portal with Role-Based Access',
-    description: 'Delivered a role-based enterprise HR portal using Java Spring Boot, Angular, and MySQL, streamlining onboarding workflows and reducing manual HR processing time by 40%.',
-    technologies: ['Java', 'Spring Boot', 'Angular', 'MySQL']
-  },
-  {
-    title: 'Flight Arrival Delay Prediction Model',
-    description: 'Leveraged Scikit-learn and XGBoost to predict flight arrival delays with 94% accuracy on the OpenFlights dataset, while visualizing cascading delay impacts using Matplotlib and Seaborn for 15% improvement in airline scheduling efficiency.',
-    technologies: ['Python', 'Scikit-learn', 'XGBoost', 'Matplotlib']
-  },
-  {
-    title: 'CLOUDKEY: Secure Authentication Service',
-    description: 'Crafted a secure, cloud-based user authentication system using Firebase Auth, Google OAuth, and API keys, while enhancing frontend/backend flows with React and Node.js; boosted login efficiency by 30% and reduced access errors by 20%.',
-    technologies: ['Firebase Auth', 'Google OAuth', 'React', 'Node.js']
-  },
-  {
-    title: 'TensorFlow Image Detection Pipeline',
-    description: 'Established a TensorFlow-powered early sepsis detection model into a Python Flask API and integrated it with cloud-alert systems in SMART-on-FHIR-compliant REST APIs implementing the healthcare interoperability data standard, removing 80% of manual entry overhead.',
-    technologies: ['TensorFlow', 'Python Flask', 'SMART-on-FHIR', 'REST APIs']
-  }
-]
+import { featuredProjects } from '@/lib/portfolio-data'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -59,64 +27,84 @@ const itemVariants = {
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="py-20 glass-section">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="projects" className="glass-section py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center sm:mb-12"
         >
           <span className="text-sm font-mono text-primary mb-4 block">03</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             PROJECTS
           </h2>
+          <p className="mx-auto max-w-2xl text-center text-lg text-muted-foreground">
+            Selected work with source code, live products, and enough detail to
+            evaluate the implementation.
+          </p>
         </motion.div>
 
-        {/* Projects Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
         >
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
+          {featuredProjects.map((project) => (
+            <motion.article
+              key={project.title}
               variants={itemVariants}
-              whileHover={{ y: -5, scale: 1.02 }}
-              className="group glass-card rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-card/50 hover:border-white/20 transition-all duration-300"
+              whileHover={{ y: -4 }}
+              className="glass-card relative flex h-full flex-col rounded-lg p-6 shadow-lg transition-shadow hover:shadow-xl"
             >
-              {/* Project Header */}
-              <div className="mb-4">
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-              </div>
+              <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                {project.eyebrow}
+              </p>
+              <h3 className="mb-3 text-xl font-bold text-foreground">
+                {project.title}
+              </h3>
 
-              {/* Project Description */}
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 {project.description}
               </p>
 
-              {/* Technologies */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 py-1 text-xs font-mono glass-badge text-muted-foreground rounded group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all duration-300"
+                    className="glass-badge rounded px-2 py-1 font-mono text-xs text-muted-foreground"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-primary/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-            </motion.div>
+              <div className="mt-auto flex flex-wrap gap-3">
+                <a
+                  href={project.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-ghost inline-flex items-center gap-2 px-4 py-2 text-sm"
+                >
+                  <Github className="h-4 w-4" aria-hidden="true" />
+                  Source
+                </a>
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-sm"
+                  >
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    Live demo
+                  </a>
+                )}
+              </div>
+            </motion.article>
           ))}
         </motion.div>
       </div>

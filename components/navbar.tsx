@@ -1,167 +1,240 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { type MouseEvent, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Moon, Sun, Menu, X } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Menu, Moon, Sun, X } from 'lucide-react'
 
 const navItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Education', href: '#education' },
-  { name: 'Research', href: '#research' },
-  { name: 'Contact', href: '#contact' },
-]
+  { name: 'About', id: 'about' },
+  { name: 'Experience', id: 'experience' },
+  { name: 'Projects', id: 'projects' },
+  { name: 'Skills', id: 'skills' },
+  { name: 'Research', id: 'research' },
+  { name: 'Contact', id: 'contact' },
+] as const
+
+const sectionIds = ['home', ...navItems.map((item) => item.id)]
 
 export function Navbar() {
   const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [activeSection, setActiveSection] = useState('home')
+  const pathname = usePathname()
+  const prefersReducedMotion = useReducedMotion()
+  const { resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
-    
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 100
-      setScrolled(isScrolled)
+
+    let frame = 0
+    const updateNavigation = () => {
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 24)
+
+        const marker = window.scrollY + 112
+        let currentSection = 'home'
+
+        for (const id of sectionIds) {
+          const section = document.getElementById(id)
+          if (!section) continue
+
+          const sectionTop = section.getBoundingClientRect().top + window.scrollY
+          if (sectionTop <= marker) currentSection = id
+        }
+
+        if (
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 4
+        ) {
+          currentSection = 'contact'
+        }
+
+        setActiveSection(currentSection)
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setIsOpen(false)
+      updateNavigation()
+    }
+
+    updateNavigation()
+    window.addEventListener('scroll', updateNavigation, { passive: true })
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateNavigation)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
-  if (!mounted) {
-    return null
-  }
+  useEffect(() => {
+    if (!isOpen) return
 
-  const handleNavClick = (href: string) => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [isOpen])
+
+  const hrefFor = (id: string) => (pathname === '/' ? `#${id}` : `/#${id}`)
+
+  const handleNavClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) => {
+    const menuWasOpen = isOpen
     setIsOpen(false)
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
+    if (pathname !== '/') return
+
+    const element = document.getElementById(id)
+    if (!element) return
+
+    event.preventDefault()
+    window.history.pushState(null, '', `#${id}`)
+
+    const scrollToSection = () => {
+      const top = element.getBoundingClientRect().top + window.scrollY - 80
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      })
+    }
+
+    if (menuWasOpen && !prefersReducedMotion) {
+      window.setTimeout(scrollToSection, 220)
+    } else {
+      window.requestAnimationFrame(scrollToSection)
     }
   }
+
+  const isDark = mounted ? resolvedTheme === 'dark' : true
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
+      initial={prefersReducedMotion ? false : { y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? 'glass shadow-lg'
-          : 'bg-transparent backdrop-blur-none'
+      transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled || isOpen ? 'glass shadow-lg' : 'bg-transparent'
       }`}
+      aria-label="Primary navigation"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex-shrink-0"
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link
+            href={hrefFor('home')}
+            onClick={(event) => handleNavClick(event, 'home')}
+            className="flex-shrink-0 text-base font-bold text-foreground transition-colors hover:text-primary sm:text-xl"
+            aria-current={activeSection === 'home' && pathname === '/' ? 'page' : undefined}
           >
-            <Link
-              href="#home"
-              onClick={() => handleNavClick('#home')}
-              className="text-xl font-bold text-foreground hover:text-primary transition-colors"
-            >
-              SANJAY <span className="text-muted-foreground">SANTHANAM</span>
-            </Link>
-          </motion.div>
+            SANJAY{' '}
+            <span className="text-muted-foreground">
+              <span className="sm:hidden">S.</span>
+              <span className="hidden sm:inline">SANTHANAM</span>
+            </span>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+          <div className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => {
+              const isActive = pathname === '/' && activeSection === item.id
+
+              return (
+                <Link
+                  key={item.id}
+                  href={hrefFor(item.id)}
+                  onClick={(event) => handleNavClick(event, item.id)}
+                  className={`group relative rounded-md px-2.5 py-2 text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'text-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                  aria-current={isActive ? 'location' : undefined}
                 >
-                  <Link
-                    href={item.href}
-                    onClick={() => handleNavClick(item.href)}
-                    className="relative text-foreground hover:text-primary px-3 py-2 text-sm font-medium transition-colors group"
-                  >
-                    {item.name}
-                    <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+                  {item.name}
+                  <span
+                    className={`absolute inset-x-2.5 bottom-1 h-0.5 origin-left bg-primary transition-transform ${
+                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </Link>
+              )
+            })}
           </div>
 
-          {/* Theme Toggle & Mobile Menu Button */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-1">
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-md hover:bg-muted transition-colors"
-              aria-label="Toggle theme"
+              type="button"
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors hover:bg-muted"
+              aria-label={isDark ? 'Use light theme' : 'Use dark theme'}
             >
-              {theme === 'dark' ? (
-                <Sun className="h-5 w-5" />
+              {isDark ? (
+                <Sun className="h-5 w-5" aria-hidden="true" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-5 w-5" aria-hidden="true" />
               )}
             </motion.button>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-md hover:bg-muted transition-colors"
-                aria-label="Toggle menu"
-              >
-                {isOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </motion.button>
-            </div>
+            <motion.button
+              type="button"
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+              onClick={() => setIsOpen((open) => !open)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors hover:bg-muted lg:hidden"
+              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Menu className="h-6 w-6" aria-hidden="true" />
+              )}
+            </motion.button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
+            id="mobile-navigation"
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden glass border-t border-border"
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+            className="max-h-[calc(100svh-4rem)] overflow-y-auto border-t border-border bg-background/90 backdrop-blur-xl lg:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
+            <div className="space-y-1 px-4 py-3 sm:px-6">
+              {navItems.map((item) => {
+                const isActive = pathname === '/' && activeSection === item.id
+
+                return (
                   <Link
-                    href={item.href}
-                    onClick={() => handleNavClick(item.href)}
-                    className="text-foreground hover:text-primary block px-3 py-2 text-base font-medium transition-colors"
+                    key={item.id}
+                    href={hrefFor(item.id)}
+                    onClick={(event) => handleNavClick(event, item.id)}
+                    className={`block rounded-md px-3 py-3 text-base font-medium transition-colors ${
+                      isActive
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-foreground hover:bg-muted'
+                    }`}
+                    aria-current={isActive ? 'location' : undefined}
                   >
                     {item.name}
                   </Link>
-                </motion.div>
-              ))}
+                )
+              })}
             </div>
           </motion.div>
         )}
