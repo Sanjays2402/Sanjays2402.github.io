@@ -48,11 +48,9 @@ git push -u origin main
 ```
 
 ### Step 3: Enable GitHub Pages
-1. Go to your GitHub repository
-2. Click on **Settings** tab
-3. Scroll down to **Pages** section
-4. Under **Source**, select **Deploy from a branch** and choose **main**, folder **/(root)**
-   - *(Note: currently we build locally and push the static output directly to the root of the repo)*
+1. Go to **Settings → Pages** in the GitHub repository.
+2. Under **Build and deployment**, select **GitHub Actions** as the source.
+3. Pushes to `main` build the static export and deploy the `out/` artifact through `.github/workflows/deploy.yml`.
 
 ### Step 4: Access Your Site
 Your portfolio will be available at:
