@@ -44,35 +44,71 @@ export const experiences = [
   },
 ] as const
 
-export const featuredProjects = [
+export type FeaturedProject = {
+  title: string
+  eyebrow: string
+  description: string
+  technologies: readonly string[]
+  impact: readonly {
+    value: string
+    label: string
+  }[]
+  sourceUrl?: string
+  liveUrl?: string
+}
+
+export const featuredProjects: readonly FeaturedProject[] = [
   {
-    title: 'Snip',
-    eyebrow: 'Distributed backend',
+    title: 'FHIR Patient Scheduling',
+    eyebrow: 'Healthcare platform · Production',
     description:
-      'A production-grade URL shortener with workspaces, real-time analytics, signed webhooks, token-bucket rate limiting, API documentation, and a CLI.',
-    technologies: ['TypeScript', 'PostgreSQL', 'Redis', 'ClickHouse'],
-    sourceUrl: 'https://github.com/Sanjays2402/snip',
-    liveUrl: null,
+      'Designed a FHIR-compliant scheduling microservice in Java 17 and Spring Boot, connecting appointment workflows across a multi-hospital network while keeping booking available around the clock.',
+    technologies: ['Java 17', 'Spring Boot', 'FHIR', 'Microservices'],
+    impact: [
+      { value: '15', label: 'hospitals connected' },
+      { value: '35%', label: 'faster booking' },
+      { value: '24/7', label: 'availability' },
+    ],
   },
   {
-    title: 'AI Particle Simulator',
-    eyebrow: 'Applied AI + WebGL',
+    title: 'Real-Time Fraud Detection',
+    eyebrow: 'Financial systems · Streaming',
     description:
-      'A natural-language 3D simulator that renders 20K+ GPU-accelerated particles with 40+ presets, live controls, audio reactivity, and export tools.',
-    technologies: ['React', 'Three.js', 'WebGL', 'LLM APIs'],
-    sourceUrl: 'https://github.com/Sanjays2402/ai-particle-simulator',
-    liveUrl: 'https://sanjays2402.github.io/ai-particle-simulator/',
+      'Built Spring Boot services around Kafka Streams and Oracle to score credit-card activity in real time, balancing sustained throughput with higher detection accuracy.',
+    technologies: ['Spring Boot', 'Kafka Streams', 'Oracle', 'Docker'],
+    impact: [
+      { value: '1M+', label: 'transactions per hour' },
+      { value: '15%', label: 'accuracy improvement' },
+    ],
   },
   {
-    title: 'Nexus Note-Taker',
-    eyebrow: 'Local-first product',
+    title: 'Enterprise HR Portal',
+    eyebrow: 'Workflow platform · Full stack',
     description:
-      'An Obsidian-inspired notes workspace with bidirectional wiki links, graph visualization, local persistence, full-text search, and AI-assisted Q&A.',
-    technologies: ['React', 'TypeScript', 'Zustand', 'Vite'],
-    sourceUrl: 'https://github.com/Sanjays2402/Nexus_Note-Taker',
-    liveUrl: 'https://nexus-note-taker.vercel.app',
+      'Delivered a role-based HR platform spanning Spring Boot, Angular, and MySQL to consolidate onboarding workflows and remove repetitive manual processing.',
+    technologies: ['Java', 'Spring Boot', 'Angular', 'MySQL'],
+    impact: [{ value: '40%', label: 'less manual processing' }],
   },
-] as const
+  {
+    title: 'Flight Delay Prediction',
+    eyebrow: 'Applied ML · Forecasting',
+    description:
+      'Trained an XGBoost arrival-delay model on the OpenFlights dataset and mapped cascading delays with operational visualizations for schedule planning.',
+    technologies: ['Python', 'Scikit-learn', 'XGBoost', 'Matplotlib'],
+    impact: [{ value: '94%', label: 'prediction accuracy' }],
+  },
+  {
+    title: 'CloudKey Authentication Service',
+    eyebrow: 'Identity platform · Security',
+    description:
+      'Built a cloud authentication service with Firebase Auth, Google OAuth, API-key controls, and coordinated React and Node.js flows for safer, faster access.',
+    technologies: ['Firebase Auth', 'Google OAuth', 'React', 'Node.js'],
+    impact: [
+      { value: '30%', label: 'faster login flow' },
+      { value: '20%', label: 'fewer access errors' },
+    ],
+  },
+]
 
 export const skillCategories = [
   {

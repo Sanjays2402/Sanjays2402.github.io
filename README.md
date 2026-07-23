@@ -4,12 +4,12 @@ Modern portfolio website built with Next.js 15, Tailwind CSS, and Framer Motion.
 
 ## 🚀 Features
 
-- **Modern Tech Stack**: Next.js 14, TypeScript, Tailwind CSS, Framer Motion
+- **Modern Tech Stack**: Next.js 15, TypeScript, Tailwind CSS, Framer Motion
 - **Responsive Design**: Mobile-first layouts with tablet-safe navigation and overflow protection
 - **Dark/Light Theme**: Theme switching with next-themes
 - **Accessibility**: High-legibility typography, keyboard focus states, and reduced-motion support
 - **Performance**: Optimized for fast loading and smooth interactions
-- **Conversion**: Verified project links and a printable, accessible resume route
+- **Conversion**: Outcome-led project case studies and a printable, accessible resume route
 
 ## 🛠️ Local Development
 
@@ -76,14 +76,14 @@ The portfolio is fully optimized for mobile devices including:
 - Positioning-focused hero with portfolio and resume calls to action
 - About, impact metrics, and education summary
 - Work experience
-- Verified projects with source and live-demo links
+- Production and applied project case studies with measurable outcomes
 - Skills grouped by engineering area
 - Research publications linked to Google Scholar
 - Contact information
 
 ## 🔧 Tech Stack
 
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 15 with App Router
 - **Styling**: Tailwind CSS
 - **Animations**: Framer Motion
 - **Theme**: next-themes
