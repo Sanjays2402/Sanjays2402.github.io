@@ -47,6 +47,7 @@ export const experiences = [
 export type FeaturedProject = {
   title: string
   eyebrow: string
+  category: 'professional' | 'open-source'
   description: string
   technologies: readonly string[]
   impact: readonly {
@@ -61,6 +62,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
   {
     title: 'FHIR Patient Scheduling',
     eyebrow: 'Healthcare platform · Production',
+    category: 'professional',
     description:
       'Designed a FHIR-compliant scheduling microservice in Java 17 and Spring Boot, connecting appointment workflows across a multi-hospital network while keeping booking available around the clock.',
     technologies: ['Java 17', 'Spring Boot', 'FHIR', 'Microservices'],
@@ -73,6 +75,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
   {
     title: 'Real-Time Fraud Detection',
     eyebrow: 'Financial systems · Streaming',
+    category: 'professional',
     description:
       'Built Spring Boot services around Kafka Streams and Oracle to score credit-card activity in real time, balancing sustained throughput with higher detection accuracy.',
     technologies: ['Spring Boot', 'Kafka Streams', 'Oracle', 'Docker'],
@@ -84,6 +87,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
   {
     title: 'Enterprise HR Portal',
     eyebrow: 'Workflow platform · Full stack',
+    category: 'professional',
     description:
       'Delivered a role-based HR platform spanning Spring Boot, Angular, and MySQL to consolidate onboarding workflows and remove repetitive manual processing.',
     technologies: ['Java', 'Spring Boot', 'Angular', 'MySQL'],
@@ -92,6 +96,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
   {
     title: 'Flight Delay Prediction',
     eyebrow: 'Applied ML · Forecasting',
+    category: 'professional',
     description:
       'Trained an XGBoost arrival-delay model on the OpenFlights dataset and mapped cascading delays with operational visualizations for schedule planning.',
     technologies: ['Python', 'Scikit-learn', 'XGBoost', 'Matplotlib'],
@@ -100,6 +105,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
   {
     title: 'CloudKey Authentication Service',
     eyebrow: 'Identity platform · Security',
+    category: 'professional',
     description:
       'Built a cloud authentication service with Firebase Auth, Google OAuth, API-key controls, and coordinated React and Node.js flows for safer, faster access.',
     technologies: ['Firebase Auth', 'Google OAuth', 'React', 'Node.js'],
@@ -107,6 +113,49 @@ export const featuredProjects: readonly FeaturedProject[] = [
       { value: '30%', label: 'faster login flow' },
       { value: '20%', label: 'fewer access errors' },
     ],
+  },
+  {
+    title: 'Slab',
+    eyebrow: 'Local-first PDF workstation',
+    category: 'open-source',
+    description:
+      'A cross-platform, fully offline PDF workstation with native document tooling, on-device AI, a plugin SDK, and a self-hostable server. No uploads, accounts, cloud round-trips, or telemetry.',
+    technologies: ['Rust', 'Tauri', 'Svelte 5', 'TypeScript'],
+    impact: [
+      { value: '30+', label: 'PDF operations' },
+      { value: '730+', label: 'Rust tests' },
+      { value: '3', label: 'desktop platforms' },
+    ],
+    sourceUrl: 'https://github.com/Sanjays2402/slab',
+  },
+  {
+    title: 'Snip',
+    eyebrow: 'Distributed URL platform',
+    category: 'open-source',
+    description:
+      'A production-shaped URL shortener with team workspaces, real-time analytics, signed webhooks, token-bucket rate limiting, interactive API docs, and a first-party CLI.',
+    technologies: ['TypeScript', 'PostgreSQL', 'Redis', 'ClickHouse'],
+    impact: [
+      { value: 'RBAC', label: 'team workspaces' },
+      { value: 'HMAC', label: 'signed webhooks' },
+      { value: 'CLI', label: 'operator tooling' },
+    ],
+    sourceUrl: 'https://github.com/Sanjays2402/snip',
+  },
+  {
+    title: 'AI Particle Simulator',
+    eyebrow: 'Generative 3D playground',
+    category: 'open-source',
+    description:
+      'A natural-language particle generator with GPU-accelerated rendering, live controls, audio reactivity, post-processing, shareable state, and media export.',
+    technologies: ['React', 'Three.js', 'WebGL', 'Zustand'],
+    impact: [
+      { value: '20K+', label: 'live particles' },
+      { value: '40+', label: 'built-in presets' },
+      { value: '60', label: 'frames per second' },
+    ],
+    sourceUrl: 'https://github.com/Sanjays2402/ai-particle-simulator',
+    liveUrl: 'https://sanjays2402.github.io/ai-particle-simulator/',
   },
 ]
 

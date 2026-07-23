@@ -115,32 +115,39 @@ export default function ResumePage() {
         <section className="resume-section mt-8">
           <ResumeHeading>Selected projects</ResumeHeading>
           <div className="grid gap-5 sm:grid-cols-2">
-            {featuredProjects.map((project) => (
-              <div key={project.title}>
-                {project.sourceUrl ? (
-                  <a
-                    href={project.sourceUrl}
-                    className="inline-flex items-center gap-1.5 font-bold text-foreground hover:text-primary"
-                  >
-                    {project.title}
-                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                  </a>
-                ) : (
-                  <h3 className="font-bold text-foreground">{project.title}</h3>
-                )}
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {project.description}
-                </p>
-                <p className="mt-2 text-xs font-semibold text-foreground">
-                  {project.impact
-                    .map((item) => `${item.value} ${item.label}`)
-                    .join(' · ')}
-                </p>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {project.technologies.join(' / ')}
-                </p>
-              </div>
-            ))}
+            {featuredProjects
+              .filter(
+                (project) =>
+                  project.category === 'professional' || project.title === 'Slab'
+              )
+              .map((project) => (
+                <div key={project.title}>
+                  {project.sourceUrl ? (
+                    <a
+                      href={project.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-bold text-foreground hover:text-primary"
+                    >
+                      {project.title}
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <h3 className="font-bold text-foreground">{project.title}</h3>
+                  )}
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {project.description}
+                  </p>
+                  <p className="mt-2 text-xs font-semibold text-foreground">
+                    {project.impact
+                      .map((item) => `${item.value} ${item.label}`)
+                      .join(' · ')}
+                  </p>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {project.technologies.join(' / ')}
+                  </p>
+                </div>
+              ))}
           </div>
         </section>
 

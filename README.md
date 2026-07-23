@@ -76,7 +76,7 @@ The portfolio is fully optimized for mobile devices including:
 - Positioning-focused hero with portfolio and resume calls to action
 - About, impact metrics, and education summary
 - Work experience
-- Production and applied project case studies with measurable outcomes
+- Production case studies and recent open-source builds with measurable outcomes
 - Skills grouped by engineering area
 - Research publications linked to Google Scholar
 - Contact information
